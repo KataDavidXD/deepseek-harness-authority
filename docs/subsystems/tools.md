@@ -317,7 +317,10 @@ A `ToolGuard` is scope-aware final pre-dispatch policy. Its return type delibera
  * A monotonic execution guard evaluated after every `tools/pre-execute`
  * listener and before the tool body. Returning a reason denies the call;
  * returning `undefined` leaves it unchanged. Because guards have no allow
- * result, listener ordering cannot turn a denial back into permission.
+ * result, listener ordering cannot turn a denial back into permission. Every
+ * matching registration visible when an execution begins is leased through
+ * that execution's guard stage even if its owning fiber disposes meanwhile;
+ * disposal still removes it from executions that begin afterward.
  * @param execution - the identity-protected call after extensible pre-execute policy completed.
  * @returns a final denial reason, or `undefined` to leave the call allowed.
  */
